@@ -1,0 +1,34 @@
+PATH_SECRETS: "secrets.yaml"
+PATH_MODELS : "./models/"
+PATH_DATA : "./data/"
+PATH_FIGURES: "./figures/"
+LOG_DIR: "logs/"
+
+random_seed: 42
+
+collector_db:
+  host: "95.215.1.30"
+  port: 6124
+  dbname: "default"
+
+callbacks:
+  model_name: "lstm"
+  cooldown_epochs: 1
+  learning_rate: 0.001  
+  min_learning_rate: 1e-6
+  reduce_patience: 5
+  stop_patience: 150
+  monitor: "mse"
+  verbose: 1
+  mode: "max"
+  save_weights_only: true
+  save_best_only: true
+  restore_best_weights: true
+  factor: 0.9
+
+intervals:
+  ci_low: 0.75
+  ci_high: 1.25
+
+logging: true
+verbose: true
