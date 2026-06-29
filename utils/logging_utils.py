@@ -17,7 +17,7 @@ def get_logger(
     Example:
         get_logger(
             log_dir="logs",
-            file_name="frontend.log"
+            file_name="backend.log"
         )
         
     Args:
