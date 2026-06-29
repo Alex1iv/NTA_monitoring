@@ -78,8 +78,19 @@ class DBWriter:
 
         Raises:
             Exception: Print msg if error
-        """     
-
+        """ 
+        try:    
+            self.client.execute('SELECT 1')
+            
+            if self.logger:
+                self.logger.info("[DB]      connection was established")
+        
+        except Exception as e:
+            if self.logger:
+                self.logger.info(f"[DB]      ERROR inserting events {str(e)}")
+            
+            raise 
+        
         # исключаем загрузку пустых строк
         if df is None or df.empty:
 
