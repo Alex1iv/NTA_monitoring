@@ -9,7 +9,7 @@ from keras.models import load_model
 
 from utils.click_writer import DBWriter
 from utils.models import get_predictions, get_intervals, split_sequences
-
+from utils.logging_utils import get_logger
 
 import warnings
 warnings.filterwarnings("ignore")
@@ -27,6 +27,13 @@ with open(BASE_DIR / "config.yaml") as f:
 # Load credentials
 with open(BASE_DIR / "secrets.yaml") as f:
     cred = yaml.safe_load(f)
+
+
+logger = get_logger(    
+    log_dir=BASE_DIR / config["LOG_DIR"],
+    file_name="backemd.log",
+    enabled=config["logging"]
+)
 
 #fix random seed
 np.random.seed(config['random_seed'])
@@ -75,7 +82,7 @@ def main():
 
 
     prediction = get_predictions(
-        num_periods_to_forecast=350, 
+        num_periods_to_forecast=250, 
         last_prediction=X_splitted[-1:,:], 
         last_index=df.index[-1], 
         scaler=scaler,
@@ -93,8 +100,9 @@ def main():
         config['intervals']['ci_low'], 
         config['intervals']['ci_high']
     )
+    
     tmp['feature_name']= 'total_bytes'
-    tmp['feature_name']= 'total_bytes'
+    
     tmp = tmp.reset_index().rename(columns={'index':'dt'})
     tmp = tmp[['dt', 'feature_name', 'ci_low','ci_high']]
     
