@@ -2,7 +2,7 @@ PATH_SECRETS: "secrets.yaml"
 PATH_MODELS : "./models/"
 PATH_DATA : "./data/"
 PATH_FIGURES: "./figures/"
-LOG_DIR: "logs/"
+LOG_DIR: "./logs/"
 
 random_seed: 42
 
