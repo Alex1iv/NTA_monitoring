@@ -6,6 +6,13 @@ LOG_DIR: "./logs/"
 
 random_seed: 42
 
+ssh:
+  ssh_host : "95.215.1.30"
+  ssh_port: 22
+  remote_host: "localhost"
+  remote_port: 9000
+  local_port: 12000
+
 collector_db:
   host: "95.215.1.30"
   port: 6124
