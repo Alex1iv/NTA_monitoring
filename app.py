@@ -31,7 +31,7 @@ with open(BASE_DIR / "secrets.yaml") as f:
 
 logger = get_logger(    
     log_dir=BASE_DIR / config["LOG_DIR"],
-    file_name="backemd.log",
+    file_name="backend.log",
     enabled=config["logging"]
 )
 
@@ -74,6 +74,7 @@ def main():
     
     # split into samples
     n_steps = 3
+    
     X_splitted, _ = split_sequences(
         X=df,
         Y=df['bytes_scaled'], 
@@ -82,7 +83,7 @@ def main():
 
 
     prediction = get_predictions(
-        num_periods_to_forecast=250, 
+        num_periods_to_forecast=5, 
         last_prediction=X_splitted[-1:,:], 
         last_index=df.index[-1], 
         scaler=scaler,
@@ -92,8 +93,7 @@ def main():
     
     mask = prediction.index < (
         datetime.now() + pd.Timedelta(days=1)).strftime('%Y-%m-%d 00:00:00')
-    
-    #prediction = pd.DataFrame(prediction[mask])
+
 
     tmp=get_intervals(
         prediction[mask], 
@@ -105,6 +105,13 @@ def main():
     
     tmp = tmp.reset_index().rename(columns={'index':'dt'})
     tmp = tmp[['dt', 'feature_name', 'ci_low','ci_high']]
+    
+    # tmp = pd.DataFrame({
+    #     'dt':[pd.to_datetime('2026-06-10 18:28:00'), pd.to_datetime('2026-06-10 18:29:00')], 
+    #     'feature_name': ['total_bytes', 'total_bytes'], 
+    #     'ci_low': [10.389744, 10.428328], 
+    #     'ci_high': [11.103975, 11.142559]}
+    # )
     
     db.export_data(tmp)
     
