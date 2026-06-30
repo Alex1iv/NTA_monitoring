@@ -1,4 +1,5 @@
 from clickhouse_driver import Client, errors
+import pandas as pd
 import time
 
 class DBWriter:
@@ -64,7 +65,7 @@ class DBWriter:
 
     def export_data(
         self,
-        df, #:pd.DataFrame,
+        df:pd.DataFrame,  
         query:str='INSERT INTO intervals (dt, feature_name, ci_low, ci_high) VALUES' 
         ):
         """Export data into a ClickHouse table
@@ -103,9 +104,12 @@ class DBWriter:
                 self.logger.info(f"[DB]     Export started")
 
             # convert to a list
-            data = list(df.itertuples(index=False, name=None)) 
-   
-            self.client.execute(query, data)
+            string_data = str(list(df.itertuples(index=False, name=None)))[1:-1]
+            #data = df.to_dict('records')
+            #print(string_data)
+
+            self.client.execute(query + string_data)
+            #self.client.insert_dataframe(query, data, settings=dict(use_numpy=True))
             
             if self.logger:
                 self.logger.info(f"[DB]      Inserted {len(df)} rows")
