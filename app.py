@@ -17,7 +17,7 @@ warnings.filterwarnings("ignore")
 os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
-BASE_DIR = Path("D:/IDE/NTA_monitoring") #Path(__file__).resolve().parent 
+BASE_DIR = Path(__file__).resolve().parent  #Path("D:/IDE/NTA_monitoring") #
 
 
 # Load config
@@ -64,7 +64,7 @@ def main():
     df["sin_time"] = np.sin(2*np.pi * df["minutes"]/1440)
     df["cos_time"] = np.cos(2*np.pi * df["minutes"]/1440)
     df = df.drop(["minutes"], axis=1)
-    #print(df.iloc[[-1]])
+
     
     scaler = joblib.load(os.path.join(config['PATH_MODELS'], 'scaler.gz'))
     model = load_model(os.path.join(config['PATH_MODELS'], 'model_LSTM.keras'))
@@ -105,13 +105,6 @@ def main():
     
     tmp = tmp.reset_index().rename(columns={'index':'dt'})
     tmp = tmp[['dt', 'feature_name', 'ci_low','ci_high']]
-    
-    # tmp = pd.DataFrame({
-    #     'dt':[pd.to_datetime('2026-06-10 18:28:00'), pd.to_datetime('2026-06-10 18:29:00')], 
-    #     'feature_name': ['total_bytes', 'total_bytes'], 
-    #     'ci_low': [10.389744, 10.428328], 
-    #     'ci_high': [11.103975, 11.142559]}
-    # )
     
     db.export_data(tmp)
     
