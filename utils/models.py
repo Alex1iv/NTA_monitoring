@@ -5,7 +5,7 @@ from keras.models import Model
 import tensorflow as tf
 # from keras.models import Sequential
 from keras.layers import LSTM, Dense
-from utils.reader_config import config_reader
+#from utils.reader_config import config_reader
 # Import parameters
 #config = config_reader('../config/config.json')
 PATH_FIGURES = "../figures/"
