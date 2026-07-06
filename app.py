@@ -16,6 +16,7 @@ warnings.filterwarnings("ignore")
 
 os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
+os.environ["GRPC_VERBOSITY"] = "ERROR"
 
 BASE_DIR = Path(__file__).resolve().parent  #Path("D:/IDE/NTA_monitoring") #
 
