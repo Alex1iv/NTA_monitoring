@@ -33,9 +33,13 @@ callbacks:
   restore_best_weights: true
   factor: 0.9
 
+torch_params:
+  num_epochs: 60
+  learning_rate: 0.001
+
 intervals:
-  ci_low: 0.75
-  ci_high: 1.25
+  ci_low: 2
+  ci_high: 4
 
 logging: true
 verbose: true
