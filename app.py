@@ -112,7 +112,8 @@ def main():
     )
     last_prediction = torch.as_tensor(X_splitted[-1:], dtype=torch.float32)
     
-    predictions = get_tch_predictions(num_periods_to_forecast=1440,
+    predictions = get_tch_predictions(
+        num_periods_to_forecast=config['pred_period_minutes'],
         last_prediction=last_prediction, #.unsqueeze(0)
         last_index=df.index[-1],
         scaler=scaler,
