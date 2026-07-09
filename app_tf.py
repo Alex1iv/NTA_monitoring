@@ -8,7 +8,7 @@ from datetime import datetime
 from keras.models import load_model
 
 from utils.click_writer import DBWriter
-from utils.models import get_predictions, get_intervals, split_sequences
+from utils.models_tf import get_predictions, get_intervals, split_sequences
 from utils.logging_utils import get_logger
 
 import warnings
