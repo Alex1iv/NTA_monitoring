@@ -41,6 +41,6 @@ intervals:
   ci_low: 2
   ci_high: 4
 
-pred_period_minutes: 180
+pred_period_minutes: 1440
 logging: true
 verbose: true
