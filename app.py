@@ -130,7 +130,13 @@ def main():
     
     intervals = intervals.reset_index().rename(columns={'index':'dt'})
     intervals = intervals[['dt', 'feature_name', 'ci_low','ci_high']]
-    print(intervals)
+    
+    intervals['ci_low'] = np.where(
+        intervals['ci_low']<config['intervals']['ci_minimum'], 
+        config['intervals']['ci_minimum'], 
+        intervals['ci_low']
+    )
+
     
     db.export_data(intervals)
     

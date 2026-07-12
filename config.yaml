@@ -40,6 +40,8 @@ torch_params:
 intervals:
   ci_low: 2
   ci_high: 4
+  ci_minimum: 1
+
 
 pred_period_minutes: 1440
 logging: true
