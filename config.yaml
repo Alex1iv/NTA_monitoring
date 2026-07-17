@@ -42,6 +42,11 @@ intervals:
   ci_high: 4
   ci_minimum: 1
 
+intervals_country_ru:
+  ci_low: 1.75
+  ci_high: 1.5
+  ci_minimum: 0.35
+  feature_name: "country_ru"
 
 pred_period_minutes: 1440
 logging: true
