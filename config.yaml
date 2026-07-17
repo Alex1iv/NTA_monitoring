@@ -47,6 +47,8 @@ intervals_country_ru:
   ci_high: 1.5
   ci_minimum: 0.35
   feature_name: "country_ru"
+  scaler_filename: "ru_scaler.gz"
+  chkpoint_filename: "ru_tcn_checkpoint.pt"
 
 pred_period_minutes: 1440
 logging: true
