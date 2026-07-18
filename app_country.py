@@ -14,7 +14,7 @@ from utils.models import (
 import torch
 # from torch.utils.data import TensorDataset
 # from torch.utils.data import DataLoader
-
+torch.backends.nnpack.enabled = False
 
 import warnings
 warnings.filterwarnings("ignore")

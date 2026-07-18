@@ -12,8 +12,7 @@ from utils.click_writer import DBWriter
 from utils.logging_utils import get_logger
 
 import torch
-# from torch.utils.data import TensorDataset
-# from torch.utils.data import DataLoader
+torch.backends.nnpack.enabled = False
 
 from utils.models import (
     TCNRegressor, get_tch_predictions, split_N_sequences, get_intervals)
@@ -21,9 +20,6 @@ from utils.models import (
 import warnings
 warnings.filterwarnings("ignore")
 
-os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
-os.environ["GRPC_VERBOSITY"] = "ERROR"
 
 BASE_DIR = Path(__file__).resolve().parent  #Path("D:/IDE/NTA_monitoring") #
 
