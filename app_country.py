@@ -147,8 +147,8 @@ def main():
     intervals = pd.concat([intervals, temp]).sort_values(['dt', 'feature_name'])
     
     #intervals = intervals[intervals['dt']<"2026-07-18 07:02:00"]
-    print(intervals[['ci_low','ci_high']].sum())
-    #db.export_data(intervals)
+    #print(intervals[['ci_low','ci_high']].sum())
+    db.export_data(intervals)
     
 if __name__ == "__main__":
     main()
