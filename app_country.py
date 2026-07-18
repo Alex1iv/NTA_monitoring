@@ -80,7 +80,7 @@ def main():
     
     df["dt"] = df["dt"].dt.tz_localize(None)
     df = df.set_index('dt').rename_axis(None)
-    df = df[df['origin']=='RU']['Gbit']
+    df = df[df['origin']=='RU'][['Gbit']]
     
     minutes = (df.index.hour*60 + df.index.minute)
     df["sin_time"] = np.sin(2*np.pi * minutes/1440)
@@ -147,8 +147,8 @@ def main():
     intervals = pd.concat([intervals, temp]).sort_values(['dt', 'feature_name'])
     
     #intervals = intervals[intervals['dt']<"2026-07-18 07:02:00"]
-    
-    db.export_data(intervals)
+    print(intervals[['ci_low','ci_high']].sum())
+    #db.export_data(intervals)
     
 if __name__ == "__main__":
     main()
