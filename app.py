@@ -12,7 +12,8 @@ from utils.click_writer import DBWriter
 from utils.logging_utils import get_logger
 
 import torch
-torch.backends.nnpack.enabled = False
+#torch.backends.nnpack.enabled = False
+torch.backends.nnpack.set_flags(False)
 
 from utils.models import (
     TCNRegressor, get_tch_predictions, split_N_sequences, get_intervals)

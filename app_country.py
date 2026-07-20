@@ -16,7 +16,8 @@ os.environ["USE_NNPACK"] = "0"
 import torch
 # from torch.utils.data import TensorDataset
 # from torch.utils.data import DataLoader
-torch.backends.nnpack.enabled = False
+#torch.backends.nnpack.enabled = False
+torch.backends.nnpack.set_flags(False)
 
 import warnings
 warnings.filterwarnings("ignore")
