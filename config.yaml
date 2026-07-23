@@ -38,15 +38,23 @@ torch_params:
   learning_rate: 0.001
 
 intervals:
-  ci_low: 2
-  ci_high: 4
+  ci_high: 11
+  ci_low: 5.5
   ci_minimum: 1
 
 intervals_country_ru:
-  ci_low: 1.75
-  ci_high: 1.5
+  ci_high: 1.4
+  ci_low: 1.5
   ci_minimum: 0.35
   feature_name: "country_ru"
+  scaler_filename: "ru_scaler.gz"
+  chkpoint_filename: "ru_tcn_checkpoint.pt"
+
+intervals_country_F:
+  ci_high: 1.5
+  ci_low: 1.75
+  ci_minimum: 0.35
+  feature_name: "country_F"
   scaler_filename: "ru_scaler.gz"
   chkpoint_filename: "ru_tcn_checkpoint.pt"
 
