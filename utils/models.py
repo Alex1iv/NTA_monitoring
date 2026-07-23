@@ -322,19 +322,27 @@ def get_tch_predictions(
         name="future",
     )
     
-def get_intervals(ts:pd.Series, ci_low:float=1.0, ci_high:float=1.0):
+def get_intervals(
+    ts:pd.Series, 
+    ci_low:float=1.0, 
+    ci_high:float=1.0,
+    ci_minimum:float=0.5):
     """Create confidence interval
 
     Args:
         ts (pd.Series): time series
         ci_high (float, optional): upper boundary. Defaults to 1.0.
         ci_low (float, optional): lower boundary. Defaults to 1.0.
+        ci_minimum(float): minimal boundary of controlled parameter
 
     Returns:
         _type_: Parameter with confidence interval
     """    
     df = pd.DataFrame(ts)
-    df['ci_low' ] = ts - ci_low  * ts.std()
-    df['ci_high'] = ts + ci_high * ts.std()
+    #print(f'ts.std() = {ts.std():.3}')
+    df['ci_low' ] = ts - ci_low  #ts - ci_low  * ts.std()
+    df['ci_high'] = ts + ci_high #ts + ci_high * ts.std()
+
+    df['ci_low' ] = np.where(df['ci_low' ] < ci_minimum, ci_minimum, df['ci_low'])
     
     return df

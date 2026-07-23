@@ -4,7 +4,7 @@ import yaml
 from pathlib import Path
 import os
 import joblib
-from datetime import datetime
+#from datetime import datetime
 #from keras.models import load_model
 
 from utils.click_writer import DBWriter
@@ -52,9 +52,6 @@ def to_tensor(x):
     return torch.as_tensor(x, dtype=torch.float32)
 
 def main():    
-    # df = (pd.read_csv('./data/traffic_dashboard_1m.zip', 
-    #     index_col=0, parse_dates=['dt'])
-    # ).set_index('dt').rename_axis(None)
     
     db = DBWriter(
         config['collector_db'],
@@ -111,7 +108,7 @@ def main():
     
     predictions = get_tch_predictions(
         num_periods_to_forecast=config['pred_period_minutes'],
-        last_prediction=last_prediction, #.unsqueeze(0)
+        last_prediction=last_prediction,
         last_index=df.index[-1],
         scaler=scaler,
         model=model #device=device
@@ -120,7 +117,8 @@ def main():
     intervals=get_intervals(
         predictions,
         config['intervals']['ci_low'], 
-        config['intervals']['ci_high']
+        config['intervals']['ci_high'],
+        config['intervals']['ci_minimum']
     )
     
     intervals['feature_name']= 'total_bytes'
@@ -128,13 +126,13 @@ def main():
     intervals = intervals.reset_index().rename(columns={'index':'dt'})
     intervals = intervals[['dt', 'feature_name', 'ci_low','ci_high']]
     
-    intervals['ci_low'] = np.where(
-        intervals['ci_low']<config['intervals']['ci_minimum'], 
-        config['intervals']['ci_minimum'], 
-        intervals['ci_low']
-    )
+    # intervals['ci_low'] = np.where(
+    #     intervals['ci_low']<config['intervals']['ci_minimum'], 
+    #     config['intervals']['ci_minimum'], 
+    #     intervals['ci_low']
+    # )
 
-    
+    #print(intervals)
     db.export_data(intervals)
     
 if __name__ == "__main__":
