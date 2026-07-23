@@ -109,7 +109,7 @@ def main():
     model.to(device)
     model.eval()
     
-    df['bytes_scaled']= scaler.transform(df[['Gbit']]) #df[['Gbit']].values
+    df['bytes_scaled']= scaler.transform(df[['Gbit']])
     df = df[["bytes_scaled", "sin_time", "cos_time"]]
     
     # split into samples
@@ -128,29 +128,32 @@ def main():
         model=model #device=device
     )
     
-    intervals=get_intervals(
-        predictions,
+    # --- Входящий трафик из России ----------
+    intervals_ru=get_intervals(
+        predictions, 
         config['intervals_country_ru']['ci_low'], 
-        config['intervals_country_ru']['ci_high']
+        config['intervals_country_ru']['ci_high'],
+        config['intervals_country_ru']['ci_minimum']
     )
     
-    intervals['ci_low'] = np.where(
-        intervals['ci_low'] < config['intervals_country_ru']['ci_minimum'], 
-        config['intervals_country_ru']['ci_minimum'], 
-        intervals['ci_low']
+    intervals_ru['feature_name']= config['intervals_country_ru']['feature_name']
+
+    # --- Входящий трафик из-за Рубежа ----------
+    intervals_F = get_intervals(
+        predictions, **config['intervals_country_F']
+        config['intervals_country_F']['ci_low'], 
+        config['intervals_country_F']['ci_high'],
+        config['intervals_country_F']['ci_minimum']
     )
     
-    intervals['feature_name']= config['intervals_country_ru']['feature_name']
+    intervals_F['feature_name']= config['intervals_country_F']['feature_name']
+   
+    intervals = pd.concat([intervals_ru, intervals_F])
     
-    intervals = intervals.reset_index().rename(columns={'index':'dt'})
+    intervals = intervals.reset_index().rename(columns={'index':'dt'}).sort_values(['dt', 'feature_name'])
     intervals = intervals[['dt', 'feature_name', 'ci_low','ci_high']]
     
-    temp = intervals.copy()
-    temp['feature_name'] = "country_F" #config['intervals_country_ru']['feature_name']
-    intervals = pd.concat([intervals, temp]).sort_values(['dt', 'feature_name'])
-    
-    #intervals = intervals[intervals['dt']<"2026-07-18 07:02:00"]
-    #print(intervals[['ci_low','ci_high']].sum())
+    print(intervals)
     db.export_data(intervals)
     
 if __name__ == "__main__":
